@@ -106,7 +106,7 @@ def square_pad(img, padding_color=[0, 0, 0]):
     return padded_img
 
 
-def preprocess_for_vgg(img, size=224, color=True):
+def preprocess_for_vgg(img, size=244, color=True):
     """Image pre-processing for VGG16 network
 
     Parameters

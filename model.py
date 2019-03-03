@@ -70,31 +70,37 @@ def create_model(model, model_weights_path=None, top_model=True, color_mode="rgb
     if top_model:
         # Create classification block
         top_model = Sequential()
+        # top_model.add(Flatten(input_shape=model.output_shape[1:]))
+        # top_model.add(Dense(256, activation='relu'))
+        # top_model.add(Dense(26, activation='softmax'))
         top_model.add(Flatten(input_shape=model.output_shape[1:]))
         top_model.add(Dense(256, activation='relu'))
+        top_model.add(Dropout(0.2))
         top_model.add(Dense(26, activation='softmax'))
 
-        # Load weights for classification block
-        print("[INFO] loading model weights.")
-        if model_weights_path is not None:
-            # user-supplied weights
-            top_model.load_weights(model_weights_path)
-        elif model == "vgg16":
-            # pre-trained weights for transfer learning with VGG16
-            top_model.load_weights(vgg_weights_path)
-        elif model == "resnet":
-            # pre-trained weights for transfer learning with ResNet50
-            print("ResNet50 pre-trained weights are not available yet, please use VGG16 for now!")
-            top_model.load_weights(res_weights_path)
-        elif model == "mobnet":
-            # pre-trained weights for transfer learning with ResNet50
-            print("ResNet50 pre-trained weights are not available yet, please use VGG16 for now!")
-            top_model.load_weights(mob_weights_path)
+        # # Load weights for classification block
+        # print("[INFO] loading model weights.")
+        # if model_weights_path is not None:
+        #     # user-supplied weights
+        #     top_model.load_weights(model_weights_path)
+        # elif model == "vgg16":
+        #     # pre-trained weights for transfer learning with VGG16
+        #     top_model.load_weights(vgg_weights_path)
+        # elif model == "resnet":
+        #     # pre-trained weights for transfer learning with ResNet50
+        #     print("ResNet50 pre-trained weights are not available yet, please use VGG16 for now!")
+        #     top_model.load_weights(res_weights_path)
+        # elif model == "mobnet":
+        #     # pre-trained weights for transfer learning with ResNet50
+        #     print("ResNet50 pre-trained weights are not available yet, please use VGG16 for now!")
+        #     top_model.load_weights(mob_weights_path)
 
         # Join pre-loaded model + classification block
         print("[INFO] creating model.")
         my_model = Model(inputs=model.input,
                          outputs=top_model(model.output))
+
+        my_model.load_weights("snapshotvgg16_weights.hdf5")
         return my_model
     else:
         return model
