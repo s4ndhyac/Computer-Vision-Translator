@@ -64,7 +64,7 @@ def create_model(model, model_weights_path=None, top_model=True, color_mode="rgb
     # Create pre-trained model for feature extraction, without classification block
     print("[INFO] loading %s..." % (model,))
     model = MODELS[model](include_top=False,
-                          input_shape=(224, 224, 3))
+                          input_shape=(244, 244, 3))
 
     # For transfer learning
     if top_model:

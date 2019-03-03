@@ -66,7 +66,7 @@ label_dict = {pos: letter
 batch_size = args["batch"]
 
 # define input tensor
-input_shape = (224, 224, 3)
+input_shape = (244, 244, 3)
 
 # load pre-trained transfer learning model
 print("[INFO] loading {}...".format(args["model"]))
