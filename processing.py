@@ -66,6 +66,7 @@ def square_pad(img, padding_color=[0, 0, 0]):
         Image padded to a square shape
 
     """
+    #print(img)
     height = img.shape[0]
     width = img.shape[1]
     # find difference between longest side
