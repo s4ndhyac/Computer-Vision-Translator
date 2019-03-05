@@ -19,7 +19,7 @@ from keras.layers import Flatten, Dense, Input, Dropout
 from keras.models import Sequential, Model
 from keras.callbacks import ModelCheckpoint, Callback
 from keras.preprocessing.image import ImageDataGenerator
-from keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Nadam
+from keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Nadam, SGD
 
 import numpy as np
 import argparse
@@ -79,8 +79,9 @@ model = Network(include_top=False,
 print("[INFO] model loaded.")
 
 
-# freeze base model layers
-for layer in model.layers[:25]:
+# set the first 15 layers (up to the last conv block)
+# to non-trainable (weights will not be updated)
+for layer in model.layers[:15]:
     layer.trainable = False
 
 
@@ -95,14 +96,12 @@ top_model.add(Dense(26, activation='softmax'))
 # load top_model weights
 top_model_weights_path = "/Users/sandhya/Documents/repos/cv-translator/bottleneck/vgg16_bottleneck_fc_model.h5"
 top_model.load_weights(top_model_weights_path)
-
 # Join model + classification block
 my_model = Model(inputs=model.input,
                  outputs=top_model(model.output))
-
 # compile model
 print("[INFO] compiling model")
-my_model.compile(optimizer=Adadelta(),
+my_model.compile(optimizer=SGD(lr=1e-4, momentum=0.9),
                  loss='categorical_crossentropy',
                  metrics=['accuracy'])
 
