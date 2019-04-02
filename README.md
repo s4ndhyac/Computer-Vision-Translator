@@ -24,4 +24,4 @@ Broadly the approach used was as follows:
 - The classification layer is trained and weights saved in `train_classification_layer.py`
 - The model is tuned, all layers are frozen except the last convolutional block and the classification layer, the weights learned are loaded and the model re-trained with a SGD optimizer with a very low learning rate to fine-tune the model in `tune_nn.py`
 - `live_demo.py` contains the real-time application using open-cv
-
+- The plots are in the notebook named `Plots`
